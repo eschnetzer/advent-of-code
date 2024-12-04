@@ -18,11 +18,20 @@ func sumArray(numbers []int) int {
 	return result
 }
 
+func countOccurrences(s []int, c int) int {
+	count := 0
+	for _, v := range s {
+		if v == c {
+			count++
+		}
+	}
+	return count
+}
+
 func main() {
 	var list1 []int
 	var list2 []int
 	var distances []int
-	var sum int
 
 	// Open the file
 	input, err := os.Open("input.txt")
@@ -69,7 +78,18 @@ func main() {
 		distances = append(distances, int(math.Abs(float64(list2[i]-list1[i]))))
 	}
 
-	sum = sumArray(distances)
+	var sum int = sumArray(distances)
 
-	fmt.Println(sum)
+	fmt.Println("Total Distance:", sum)
+
+	// Calculate similarity
+	var similarities []int
+
+	for i := 0; i < len(list1); i++ {
+		similarities = append(similarities, countOccurrences(list2, list1[i])*list1[i])
+	}
+
+	var similarity int = sumArray(similarities)
+
+	fmt.Println("Total Similarity:", similarity)
 }
